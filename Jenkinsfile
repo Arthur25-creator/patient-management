@@ -72,6 +72,22 @@ pipeline {
             }
         }
         
+        stage('Build CDK Template') {
+		    steps {
+		        script {
+		            dir('infrastructure') {
+		                sh '''
+		                    # Install CDK dependencies
+		                    npm install
+		                    
+		                    # Synthesize CDK template
+		                    npx cdk synth
+		                '''
+		            }
+		        }
+		    }
+		}
+        
         stage('Deploy to LocalStack') {
 		    steps {
 		        script {

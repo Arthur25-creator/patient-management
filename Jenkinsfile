@@ -77,6 +77,7 @@ pipeline {
 		        script {
 		            dir('infrastructure') {
 		                sh '''
+		                    export AWS_DEFAULT_REGION=us-east-1
 		                    chmod +x localstack-deploy.sh
 		                    ./localstack-deploy.sh
 		                '''

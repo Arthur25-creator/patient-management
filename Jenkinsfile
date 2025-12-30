@@ -76,9 +76,8 @@ pipeline {
 		    steps {
 		        script {
 		            dir('infrastructure') {
-		                docker.image('maven:3.9.12-eclipse-temurin-21').inside('-v maven-cache:/root/.m2') {
+		                docker.image('maven:3.9.12-eclipse-temurin-21').inside('--user root') {
 		                    sh '''
-		                        # Just use Maven - no CDK CLI needed
 		                        mvn compile
 		                        mvn exec:java -Dexec.mainClass="com.pm.stack.LocalStack"
 		                    '''

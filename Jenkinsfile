@@ -76,8 +76,9 @@ pipeline {
 		    steps {
 		        script {
 		            dir('infrastructure') {
-		                withMaven(maven: 'Maven') {
+		                docker.image('maven:3.8-openjdk-17').inside {
 		                    sh '''
+		                        # Just use Maven - no CDK CLI needed
 		                        mvn compile
 		                        mvn exec:java -Dexec.mainClass="com.pm.stack.LocalStack"
 		                    '''

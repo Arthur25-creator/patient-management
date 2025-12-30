@@ -8,4 +8,4 @@ RUN mvn dependency:go-offline -B
 COPY src ./src
 
 # Skip integration tests during build
-CMD ["mvn", "clean", "test", "-Dtest=!*IntegrationTest"]
+CMD ["mvn", "clean", "test", "-Dtest=!*IntegrationTest", "-Dsurefire.failIfNoSpecifiedTests=false"]

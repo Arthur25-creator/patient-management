@@ -1,24 +1,44 @@
 pipeline {
     agent any
 
-    stages {
+    environment {
+        MAVEN_OPTS = '-Dmaven.repo.local=/var/jenkins_home/.m2/repository'
+    }
 
-        stage('Build Docker Images') {
+    stages {
+        stage('Checkout') {
             steps {
-                sh '''
-                docker build -t api-gateway ./api-gateway
-                docker build -t auth-service ./auth-service
-                docker build -t patient-service ./patient-service
-                docker build -t billing-service ./billing-service
-                docker build -t analytics-service ./analytics-service
-                '''
+                checkout scm
             }
         }
 
-        stage('Run Integration Tests') {
+        stage('Build & Cache Dependencies') {
+            steps {
+                sh 'mvn dependency:go-offline -B'
+            }
+        }
+
+        stage('Build Docker Images') {
+            steps {
+                script {
+                    def services = ['api-gateway','auth-service','patient-service','billing-service','analytics-service']
+                    for (s in services) {
+                        sh "docker build --cache-from ${s}:latest -t ${s} ./${s}"
+                    }
+                }
+            }
+        }
+
+        stage('Integration Tests') {
             steps {
                 sh 'mvn test -pl integration-test'
             }
+        }
+    }
+
+    post {
+        always {
+            sh 'docker system prune -f' // optional: clean dangling images to save space
         }
     }
 }

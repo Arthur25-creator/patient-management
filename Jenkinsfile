@@ -3,12 +3,6 @@ pipeline {
 
     stages {
 
-        stage('Build JARs') {
-            steps {
-                sh 'mvn clean package -DskipTests'
-            }
-        }
-
         stage('Build Docker Images') {
             steps {
                 sh '''

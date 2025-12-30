@@ -76,13 +76,12 @@ pipeline {
 		    steps {
 		        script {
 		            dir('infrastructure') {
-		                sh '''
-		                    # Build Java CDK project
-		                    mvn compile
-		                    
-		                    # Synthesize CDK template
-		                    mvn exec:java -Dexec.mainClass="com.pm.stack.LocalStack"
-		                '''
+		                withMaven(maven: 'Maven') {
+		                    sh '''
+		                        mvn compile
+		                        mvn exec:java -Dexec.mainClass="com.pm.stack.LocalStack"
+		                    '''
+		                }
 		            }
 		        }
 		    }

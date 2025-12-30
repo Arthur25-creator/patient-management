@@ -76,7 +76,7 @@ pipeline {
 		    steps {
 		        script {
 		            dir('infrastructure') {
-		                docker.image('maven:3.8-openjdk-17').inside {
+		                docker.image('maven:3.9.12-eclipse-temurin-21').inside {
 		                    sh '''
 		                        # Just use Maven - no CDK CLI needed
 		                        mvn compile

@@ -42,7 +42,7 @@ pipeline {
             steps {
                 script {
                     if (fileExists('integration-tests')) {
-                        dir('integration-test') {
+                        dir('integration-tests') {
                             echo "Building and running integration tests..."
                             sh """
                                 docker build -t integration-test:${BUILD_NUMBER} .

@@ -13,7 +13,7 @@ for service in "${SERVICES[@]}"; do
 done
 
 echo "Running integration tests..."
-cd integration-test
+cd integration-tests
 docker build -t integration-test:test .
 docker run --rm integration-test:test
 

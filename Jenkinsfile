@@ -76,13 +76,12 @@ pipeline {
 		    steps {
 		        script {
 		            dir('infrastructure') {
-		                sh '''
-		                    # Install CDK dependencies
-		                    npm install
-		                    
-		                    # Synthesize CDK template
-		                    npx cdk synth
-		                '''
+		                nodejs(nodeJSInstallationName: 'NodeJS') {
+		                    sh '''
+		                        npm install
+		                        npx cdk synth
+		                    '''
+		                }
 		            }
 		        }
 		    }

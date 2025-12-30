@@ -71,6 +71,19 @@ pipeline {
                 """
             }
         }
+        
+        stage('Deploy to LocalStack') {
+		    steps {
+		        script {
+		            dir('infrastructure') {
+		                sh '''
+		                    chmod +x localstack-deploy.sh
+		                    ./localstack-deploy.sh
+		                '''
+		            }
+		        }
+		    }
+		}
     }
     
     post {

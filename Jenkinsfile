@@ -45,15 +45,15 @@ pipeline {
                         dir('integration-tests') {
                             echo "Building and running integration tests..."
                             sh """
-                                docker build -t integration-test:${BUILD_NUMBER} .
+                                docker build -t integration-tests:${BUILD_NUMBER} .
                                 echo "Integration test image built successfully!"
                                 
                                 # Run tests in container
-                                docker run --rm --name integration-test-${BUILD_NUMBER} integration-test:${BUILD_NUMBER}
+                                docker run --rm --name integration-tests-${BUILD_NUMBER} integration-tests:${BUILD_NUMBER}
                             """
                         }
                     } else {
-                        echo "No integration-test directory found, skipping tests"
+                        echo "No integration-tests directory found, skipping tests"
                     }
                 }
             }
@@ -64,7 +64,7 @@ pipeline {
                 echo "Verifying all built images..."
                 sh """
                     echo "=== Built Images ==="
-                    docker images | grep -E "(api-gateway|analytics-service|patient-service|billing-service|auth-service|integration-test)" || echo "No images found"
+                    docker images | grep -E "(api-gateway|analytics-service|patient-service|billing-service|auth-service|integration-tests)" || echo "No images found"
                     
                     echo "=== Image Sizes ==="
                     docker images --format "table {{.Repository}}\\t{{.Tag}}\\t{{.Size}}" | grep -E "(api-gateway|analytics-service|patient-service|billing-service|auth-service)"
@@ -80,7 +80,7 @@ pipeline {
             // Clean up test containers
             sh '''
                 echo "Cleaning up test containers..."
-                docker ps -a --filter "name=integration-test-" -q | xargs -r docker rm -f
+                docker ps -a --filter "name=integration-tests-" -q | xargs -r docker rm -f
             '''
         }
         success {

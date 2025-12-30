@@ -41,7 +41,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    if (fileExists('integration-test')) {
+                    if (fileExists('integration-tests')) {
                         dir('integration-test') {
                             echo "Building and running integration tests..."
                             sh """

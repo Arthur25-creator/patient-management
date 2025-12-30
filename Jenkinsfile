@@ -76,12 +76,11 @@ pipeline {
 		    steps {
 		        script {
 		            dir('infrastructure') {
-		                nodejs(nodeJSInstallationName: 'NodeJS') {
-		                    sh '''
-		                        npm install
-		                        npx cdk synth
-		                    '''
-		                }
+		                // Build Java CDK project
+		                mvn compile
+		                
+		                // Synthesize CDK template
+		                mvn exec:java -Dexec.mainClass="com.pm.stack.LocalStack"
 		            }
 		        }
 		    }

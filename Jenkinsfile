@@ -143,7 +143,7 @@ pipeline {
             '''
         }
         cleanup {
-            // Clean up build images to save space
+            // Optional: Clean up build images to save space
             sh '''
                 echo "Cleaning up dangling images..."
                 docker image prune -f

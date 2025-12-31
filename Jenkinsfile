@@ -78,6 +78,15 @@ pipeline {
 		            dir('infrastructure') {
 		                docker.image('maven:3.9.12-eclipse-temurin-21').inside('--user root') {
 		                    sh '''
+		                        # Install Node.js
+		                        curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+		                        apt-get install -y nodejs
+		                        
+		                        # Verify installation
+		                        node --version
+		                        npm --version
+		                        
+		                        # Build CDK
 		                        mvn compile
 		                        mvn exec:java -Dexec.mainClass="com.pm.stack.LocalStack"
 		                    '''

@@ -2,8 +2,8 @@
 set -e # Stops the script if any command fails
 set -x
 
-aws --endpoint-url=http://localhost:4566 cloudformation  wait stack-delete-complete \
-    --stack-name patient-management
+#aws --endpoint-url=http://localhost:4566 cloudformation  wait stack-delete-complete \
+ #   --stack-name patient-management
 
 echo "Deploying CloudFormation stack..."
 aws --endpoint-url=http://localhost:4566 cloudformation deploy \
